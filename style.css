@@ -212,6 +212,17 @@ body {
   cursor: pointer;
 }
 
+.download-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.download-row .download-btn {
+  width: auto;
+  flex: 1;
+}
+
 .download-btn:hover {
   transform: scale(1.02);
   box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
@@ -419,6 +430,11 @@ body {
   .version-cards {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .download-row {
+    flex-direction: column;
+    gap: 10px;
   }
 
   .game-list {
