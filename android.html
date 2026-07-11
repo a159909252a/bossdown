@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安卓版下载 - BOSS计时器</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-btn">← 返回首页</a>
+
+    <header class="header">
+      <h1>📱 安卓版下载</h1>
+      <p>选择适合您的版本，随时随地计时</p>
+    </header>
+
+    <main>
+      <section class="version-section">
+        <h2 class="version-title">版本选择</h2>
+        <div class="version-cards">
+          <div class="version-card">
+            <h3>☁️ 模拟器/云手机专用 <span class="badge">推荐</span></h3>
+            <p style="color: #a0a0b0; margin-bottom: 15px; font-size: 0.9rem; line-height: 1.6;">
+              适用于雷电、夜神、MuMu等模拟器<br>
+              支持红手指、多多云等云手机平台<br>
+              悬浮窗显示，不影响游戏操作
+            </p>
+            <a href="BOSS计时安装器2.1.apk" class="download-btn" download>
+              ⬇️ 下载模拟器版
+            </a>
+          </div>
+
+          <div class="version-card">
+            <h3>🎮 游戏内置版 <span class="badge">热门</span></h3>
+            <p style="color: #a0a0b0; margin-bottom: 15px; font-size: 0.9rem; line-height: 1.6;">
+              游戏内直接使用，无需额外安装<br>
+              适配多款热门传奇手游<br>
+              点击下方查看支持的游戏列表
+            </p>
+            <button class="download-btn" onclick="openGameModal()">
+              📋 查看游戏列表
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="version-section">
+        <h2 class="version-title">功能亮点</h2>
+        <div class="version-cards">
+          <div class="version-card">
+            <h3>⚡ 便捷高效</h3>
+            <p style="color: #a0a0b0; font-size: 0.9rem; line-height: 1.8;">
+              • 悬浮窗全局显示<br>
+              • 一键添加BOSS计时<br>
+              • 震动+声音提醒<br>
+              • 后台稳定运行
+            </p>
+          </div>
+          <div class="version-card">
+            <h3>🔧 高度自定义</h3>
+            <p style="color: #a0a0b0; font-size: 0.9rem; line-height: 1.8;">
+              • 自定义BOSS名称和时间<br>
+              • 调整悬浮窗位置大小<br>
+              • 多种提醒方式可选<br>
+              • 云端数据同步
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2024 BOSS计时器 | 专业游戏辅助工具</p>
+    </footer>
+  </div>
+
+  <div class="modal" id="gameModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🎮 支持游戏列表</h3>
+        <button class="modal-close" onclick="closeGameModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="game-list" id="gameList">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function openGameModal() {
+      document.getElementById('gameModal').classList.add('active');
+      loadGameList();
+    }
+
+    function closeGameModal() {
+      document.getElementById('gameModal').classList.remove('active');
+    }
+
+    document.getElementById('gameModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeGameModal();
+      }
+    });
+
+    function renderGameList(games) {
+      const gameListEl = document.getElementById('gameList');
+      gameListEl.innerHTML = games.map(game => `
+        <div class="game-item">
+          <div class="game-icon"><img src="cqicon.webp" alt="icon"></div>
+          <div class="game-info">
+            <h4>${game.name}</h4>
+            <a href="${game.downloadUrl}" class="game-download-btn" target="_blank">
+              ⬇️ 下载
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadGameList() {
+      const gameListEl = document.getElementById('gameList');
+      try {
+        const response = await fetch('game-list.json');
+        const data = await response.json();
+        renderGameList(data.games);
+      } catch (err) {
+        gameListEl.innerHTML = '<p style="color: #ff6b6b; grid-column: 1/-1; text-align: center;">加载游戏列表失败，请稍后重试</p>';
+      }
+    }
+  </script>
+</body>
+</html>
